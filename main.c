@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:21:30 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/21 13:08:32 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/21 15:40:36 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	while (ret != NULL)
 	{
 		ret = get_next_line(fd);
-		printf("%s", ret);
+		printf(GRN "line read: %s" COLOR_RESET, ret);
 	}
 	return (0);
 }

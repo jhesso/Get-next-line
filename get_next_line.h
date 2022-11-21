@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:17:57 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/21 13:33:40 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/21 15:38:16 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,12 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
+
+// libft functions
+size_t	ft_strlen(const char *s);
+void	ft_bzero(void *s, size_t n);
+char	*ft_strchr(const char *s, int c);
+void	*ft_calloc(size_t count, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
