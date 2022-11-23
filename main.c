@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:21:30 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/21 15:40:36 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/23 12:45:10 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ int	main(void)
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	while (ret != NULL)
-	{
-		ret = get_next_line(fd);
-		printf(GRN "line read: %s" COLOR_RESET, ret);
-	}
+	ret = get_next_line(fd);
+	printf("%s", ret);
+	free(ret);
 	return (0);
 }
