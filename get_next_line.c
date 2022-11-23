@@ -6,20 +6,14 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:24:19 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/23 13:12:46 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/23 16:47:10 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "test.h"
 
-/* Get next line implementation:
-	1. check if stash has stuff in it and if it does. check if we find a newline or EOF
-	2. read into buffer and save that in to stash
-	3. find the line, save line into our return variable and remove line from stash
-	4. return line
-*/
-
-char	*ft_join(char *stash, char *buffer)
+static char	*ft_join(char *stash, char *buffer)
 {
 	char	*new_stash;
 
@@ -31,7 +25,7 @@ char	*ft_join(char *stash, char *buffer)
 /* read fd and save what is read into stash. the while loop ends when
 ** either a newline or EOF is reached
 */
-char	*ft_read(int fd, char *stash)
+static char	*ft_read(int fd, char *stash)
 {
 	char	*buffer;
 	short	ret;
@@ -61,7 +55,7 @@ char	*ft_read(int fd, char *stash)
 	return (stash);
 }
 
-char	*ft_find_line(char *stash)
+static char	*ft_find_line(char *stash)
 {
 	int		len;
 	int		i;
@@ -87,22 +81,24 @@ char	*ft_find_line(char *stash)
 /* ! this function has malloc/free issues
 ** truncate line from stash and return the new stash back
 */
-char	*ft_truncate_line(char *stash, char *line)
+static char	*ft_truncate_stash(char *stash, char *line)
 {
 	char	*n_stash;
 	int		i;
+	int		j;
 
-	n_stash = ft_calloc((ft_strlen(stash) - ft_strlen(line)) + 1, sizeof(char));
+	j = ft_strlen(line);
+	n_stash = ft_calloc((ft_strlen(stash) - j) + 1, sizeof(char));
 	if (n_stash == NULL)
 		return (NULL);
-	stash = stash + ft_strlen(line);
 	i = 0;
-	while (stash[i] != '\0')
+	while (stash[j] != '\0')
 	{
-		n_stash[i] = stash[i];
+		n_stash[i] = stash[j];
 		i++;
+		j++;
 	}
-	// free(stash); this line for some reason causes a malloc error/ why wouldnt stash be allocated?!?
+	free(stash); // this line for some reason causes a malloc/free error why wouldnt stash be allocated?!?
 	return (n_stash);
 }
 
@@ -114,11 +110,19 @@ char	*get_next_line(int fd)
 	// add some protection because you can never be too careful
 	if (fd < 0 || fd > 4095 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
+	// if (!stash)
+	// 	stash = ft_calloc(1,1);
 	// call our read function
 	stash = ft_read(fd, stash);
+	if (stash == NULL)
+		return (NULL);
 	// call our line find function
 	line = ft_find_line(stash);
+	if (line == NULL)
+		return (NULL);
 	// truncate line from stash
-	stash = ft_truncate_line(stash, line);
+	stash = ft_truncate_stash(stash, line);
+	if (stash == NULL)
+		return (NULL);
 	return (line);
 }

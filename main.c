@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:21:30 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/23 12:45:10 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/23 16:48:42 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ int	main(void)
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	ret = get_next_line(fd);
-	printf("%s", ret);
+	while (ret != NULL)
+	{
+		ret = get_next_line(fd);
+		printf("%s", ret);
+	}
 	free(ret);
 	return (0);
 }
