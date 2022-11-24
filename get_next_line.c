@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:24:19 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/23 16:47:10 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/24 16:11:18 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*ft_read(int fd, char *stash)
 	if (!stash)
 		stash = ft_calloc(1, 1);
 	// allocate memory for buffer so that we can read stuff
-	buffer = ft_calloc(BUFFER_SIZE, sizeof(char));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL || stash == NULL)
 		return (NULL);
 	ret = 1;
@@ -63,10 +63,12 @@ static char	*ft_find_line(char *stash)
 
 	// first we calculate the length of our line
 	len = 0;
+	if (!stash[len]) //?
+		return (NULL);
 	while(stash[len] != '\n' && stash[len] != '\0')
 		len++;
 	// allocate memory for our line
-	line = ft_calloc(len + 1, sizeof(char));
+	line = ft_calloc(len + 2, sizeof(char));
 	if (line == NULL)
 		return (NULL);
 	i = 0;
@@ -88,6 +90,11 @@ static char	*ft_truncate_stash(char *stash, char *line)
 	int		j;
 
 	j = ft_strlen(line);
+	if (!stash[j])
+	{
+		free (stash);
+		return (NULL);
+	}
 	n_stash = ft_calloc((ft_strlen(stash) - j) + 1, sizeof(char));
 	if (n_stash == NULL)
 		return (NULL);
@@ -98,7 +105,7 @@ static char	*ft_truncate_stash(char *stash, char *line)
 		i++;
 		j++;
 	}
-	free(stash); // this line for some reason causes a malloc/free error why wouldnt stash be allocated?!?
+	free(stash);
 	return (n_stash);
 }
 

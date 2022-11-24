@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:18:05 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/21 14:24:35 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/24 15:26:15 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ char	*ft_strchr(const char *s, int c)
 		tmp++;
 	}
 	if (a == '\0')
-	{
 		return ((char *)tmp);
-	}
 	return (NULL);
 }
 
