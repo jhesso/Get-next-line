@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:21:30 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/23 16:48:42 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/28 10:47:39 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 	char	*ret = "";
 
 	printf(RED "get ready >:)\n" COLOR_RESET);
-	fd = open("test.txt", O_RDONLY);
+	fd = open("files/empty", O_RDONLY);
 	if (fd < 0)
 		return (-1);
 	while (ret != NULL)

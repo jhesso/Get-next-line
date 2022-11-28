@@ -6,7 +6,7 @@
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:24:19 by jhesso            #+#    #+#             */
-/*   Updated: 2022/11/24 16:11:18 by jhesso           ###   ########.fr       */
+/*   Updated: 2022/11/28 11:17:59 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,18 @@ static char	*ft_read(int fd, char *stash)
 	ret = 1;
 	while (ret > 0)
 	{
-		if (ft_strchr(stash, '\n'))
-			break ;
 		ret = read(fd, buffer, BUFFER_SIZE);
 		if (ret == -1)
 		{
 			free(buffer);
+			//printf("error reading, returning NULL\n");
 			return (NULL);
 		}
 		buffer[ret] = '\0';
+		//printf("read: %s\n", buffer);
 		stash = ft_join(stash, buffer);
+		if (ft_strchr(stash, '\n'))
+			break ;
 	}
 	free (buffer);
 	return (stash);
@@ -80,7 +82,7 @@ static char	*ft_find_line(char *stash)
 	return (line);
 }
 
-/* ! this function has malloc/free issues
+/*
 ** truncate line from stash and return the new stash back
 */
 static char	*ft_truncate_stash(char *stash, char *line)
@@ -120,16 +122,25 @@ char	*get_next_line(int fd)
 	// if (!stash)
 	// 	stash = ft_calloc(1,1);
 	// call our read function
+	//printf("calling ft_read()\n");
 	stash = ft_read(fd, stash);
 	if (stash == NULL)
 		return (NULL);
 	// call our line find function
+	//printf("calling ft_find_line()\n");
 	line = ft_find_line(stash);
 	if (line == NULL)
+	{
+		if (stash != NULL) // with empty file. for some reason this results in a malloc error
+		{ // "pointer being freed was not allocated"
+			write(1, "freeing stash\n", 14);
+			free(stash);
+		}
 		return (NULL);
+	}
+	//printf("line found: %s", line);
 	// truncate line from stash
+	//printf("calling ft_truncate_stash()\n");
 	stash = ft_truncate_stash(stash, line);
-	if (stash == NULL)
-		return (NULL);
 	return (line);
 }
