@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhesso <jhesso@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/23 12:24:19 by jhesso            #+#    #+#             */
-/*   Updated: 2022/12/02 14:48:44 by jhesso           ###   ########.fr       */
+/*   Created: 2022/12/02 14:34:59 by jhesso            #+#    #+#             */
+/*   Updated: 2022/12/02 14:40:19 by jhesso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_join(char *stash, char *buffer)
 {
@@ -104,15 +104,15 @@ static char	*ft_truncate_stash(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[MAX_FD];
 	char		*line;
 
 	if (fd < 0 || fd > 4095 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	stash = ft_read(fd, stash);
-	if (!stash)
+	stash[fd] = ft_read(fd, stash[fd]);
+	if (!stash[fd])
 		return (NULL);
-	line = ft_find_line(stash);
-	stash = ft_truncate_stash(stash);
+	line = ft_find_line(stash[fd]);
+	stash[fd] = ft_truncate_stash(stash[fd]);
 	return (line);
 }
